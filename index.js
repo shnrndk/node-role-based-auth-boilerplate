@@ -9,6 +9,8 @@ const { DB, PORT } = require('./config')
 app.use(cors);
 app.use(bodyParser.json());
 
+app.use('/api/v1/users', require('./routes/users'));
+
 const startApp = async () => {
     try {
         await mongoose.connect(DB, {
