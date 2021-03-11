@@ -30,10 +30,16 @@ router.post('/login-super-admin', async (req, res) => {
     await userLogin(req.body, 'superadmin', res)
 });
 
-router.get('/user-profile', async (req, res) => { });
+router.get('/user-profile', userAuth, checkRole(['user', 'admin', 'superadmin']), async (req, res) => {
+    return res.json(serializeUser(req.user))
+});
 
-router.get('/admin-profile', async (req, res) => { });
+router.get('/admin-profile', userAuth, checkRole(['admin', 'superadmin']), async (req, res) => {
+    return res.json(serializeUser(req.user))
+});
 
-router.get('/super-admin-profile', async (req, res) => { });
+router.get('/super-admin-profile', userAuth, checkRole(['superadmin']), async (req, res) => {
+    return res.json(serializeUser(req.user))
+});
 
 module.exports = router

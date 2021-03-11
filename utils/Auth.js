@@ -139,16 +139,12 @@ const serializeUser = user => {
 /**
  * @DESC Role Checker
  */
-const checkRole = (roles) => (req, res, next) => {
-    if (roles.includes(req.user.role)) {
-        return next();
-    }
+const checkRole = (roles) => (req, res, next) =>
+    roles.includes(req.user.role) ?
+        next()
+        :
+        res.status(401).json('Unauthorized')
 
-    return res.status(401).json({
-        message: 'Unauthorized',
-        success: false
-    })
-}
 
 
 module.exports = {
