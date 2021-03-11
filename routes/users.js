@@ -21,7 +21,7 @@ router.post('/register-super-admin', async (req, res) => {
 });
 
 router.post('/login-user', async (req, res) => {
-    
+    await userLogin(req.body, 'user', res)
 });
 
 router.post('/login-admin', async (req, res) => {
