@@ -9,4 +9,8 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - ./mongo-volume:/data/db
+      - ~/local/db:/data/db
+  nodeapp:
+    build: .
+    depends_on:
+      - mongo
