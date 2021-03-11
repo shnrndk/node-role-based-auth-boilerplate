@@ -29,7 +29,7 @@ router.post('/login-admin', async (req, res) => {
 });
 
 router.post('/login-super-admin', async (req, res) => {
-    
+    await userLogin(req.body, 'superadmin', res)
 });
 
 router.post('/user-profile', async (req, res) => { });
