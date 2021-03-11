@@ -20,7 +20,6 @@ const checkToken = (passport) => {
             }).catch(err => {
                 return done(err, false);
             });
-
     }))
 }
 

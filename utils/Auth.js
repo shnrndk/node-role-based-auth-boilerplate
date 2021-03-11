@@ -117,10 +117,28 @@ const userLogin = async (userCreds, role, res) => {
     }
 }
 
+/**
+ * @DESC Passport middleware
+ */
 const userAuth = passport.authenticate('jwt', { session: false })
+
+/**
+ * @DESC Remove Password Field
+ */
+const serializeUser = user => {
+    return {
+        username: user.username,
+        email: user.email,
+        name: user.name,
+        _id: user._id,
+        updatedAt: user.updatedAt,
+        createdAt: user.createdAt
+    }
+}
 
 module.exports = {
     userRegister,
     userLogin,
-    userAuth
+    userAuth,
+    serializeUser
 }
