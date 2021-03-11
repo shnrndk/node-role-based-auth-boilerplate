@@ -2,7 +2,7 @@ const User = require('../models/User');
 const { SECRET } = require('../config/index');
 const bcrypt = require('bcrypt');
 const consola = require('consola');
-
+const jwt = require('jsonwebtoken');
 /**
  * @DESC register the user (Admin,Superadmin,User)
  */
@@ -60,6 +60,59 @@ const validateEmail = async email => {
     else return false
 }
 
+const userLogin = async (userCreds, role, res) => {
+    let { username, password } = userCreds;
+
+    const user = await User.findOne({ username });
+
+    if (!user) {
+        return res.status(404).json({
+            message: 'Username is not found',
+            success: false
+        })
+    }
+
+    if (user.role !== role) {
+        return res.status(403).json({
+            message: 'You do not have privileges',
+            success: false
+        })
+    }
+
+    let isMatch = await bcrypt.compare(password, user.password);
+
+    if (isMatch) {
+        let token = jwt.sign({
+            user_id: user._id,
+            role: user.role,
+            username: user.username,
+            email: user.email
+        }, SECRET,
+            { expiresIn: '7 days' }
+        )
+
+        let result = {
+            username: user.username,
+            role: user.role,
+            email: user.email,
+            token: `Bearer ${token}`,
+            expiresIn: 168
+        }
+
+        return res.status(200).json({
+            ...result,
+            message: "Loggged In as " + role,
+            success: true,
+        })
+    } else {
+        return res.status(403).json({
+            message: 'Incorrect Password',
+            success: false
+        })
+    }
+}
+
 module.exports = {
-    userRegister
+    userRegister,
+    userLogin
 }

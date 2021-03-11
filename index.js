@@ -4,10 +4,11 @@ const mongoose = require('mongoose');
 const consola = require('consola');
 const cors = require('cors');
 const routes = require('./routes/users')
+const morgan = require('morgan');
 const { DB, PORT } = require('./config')
 
 app.use(express.json())
-
+app.use(morgan('tiny'))
 app.use("/api/v1/users", routes);
 
 //app.use(cors);
