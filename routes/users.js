@@ -1,13 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const { userRegister, userLogin, userAuth, serializeUser } = require('../utils/Auth')
+const { userRegister, userLogin, userAuth, serializeUser, checkRole } = require('../utils/Auth')
 
 router.post('/register-user', async (req, res) => {
     await userRegister(req.body, 'user', res)
 });
 
-router.get('/test', userAuth, async (req, res) => {
-    console.log(req)
+router.get('/test', userAuth, checkRole(['user']), async (req, res) => {
     return res.json(serializeUser(req.user))
 });
 
