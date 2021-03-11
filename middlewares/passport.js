@@ -10,10 +10,10 @@ const opts = {
 
 const checkToken = (passport) => {
     passport.use(new JwtStrategy(opts, async (jwt_payload, done) => {
-        await User.findById({ id: jwt_payload.user_id })
+        await User.findById(jwt_payload.user_id)
             .then(user => {
                 if (user) {
-                    return done(err, false);
+                    return done(null, user);
                 } else {
                     return done(null, false);
                 }
