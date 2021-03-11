@@ -3,6 +3,7 @@ const { SECRET } = require('../config/index');
 const bcrypt = require('bcrypt');
 const consola = require('consola');
 const jwt = require('jsonwebtoken');
+const passport = require('passport');
 /**
  * @DESC register the user (Admin,Superadmin,User)
  */
@@ -60,6 +61,10 @@ const validateEmail = async email => {
     else return false
 }
 
+/**
+ * 
+ * @DESC user login based on role
+ */
 const userLogin = async (userCreds, role, res) => {
     let { username, password } = userCreds;
 
@@ -112,7 +117,10 @@ const userLogin = async (userCreds, role, res) => {
     }
 }
 
+const userAuth = passport.authenticate('jwt', { session: false })
+
 module.exports = {
     userRegister,
-    userLogin
+    userLogin,
+    userAuth
 }

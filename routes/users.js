@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const { userRegister, userLogin } = require('../utils/Auth')
+const { userRegister, userLogin, userAuth } = require('../utils/Auth')
 
 router.post('/register-user', async (req, res) => {
     await userRegister(req.body, 'user', res)
 });
 
-router.get('/test', async (req, res) => {
+router.get('/test', userAuth, async (req, res) => {
     res.json({
         message: 'Success'
     })
@@ -32,10 +32,10 @@ router.post('/login-super-admin', async (req, res) => {
     await userLogin(req.body, 'superadmin', res)
 });
 
-router.post('/user-profile', async (req, res) => { });
+router.get('/user-profile', async (req, res) => { });
 
-router.post('/admin-profile', async (req, res) => { });
+router.get('/admin-profile', async (req, res) => { });
 
-router.post('/super-admin-profile', async (req, res) => { });
+router.get('/super-admin-profile', async (req, res) => { });
 
 module.exports = router

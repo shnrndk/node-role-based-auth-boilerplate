@@ -5,13 +5,18 @@ const consola = require('consola');
 const cors = require('cors');
 const routes = require('./routes/users')
 const morgan = require('morgan');
-const { DB, PORT } = require('./config')
+const { DB, PORT } = require('./config');
+const passport = require('passport');
 
 app.use(express.json())
 app.use(morgan('tiny'))
-app.use("/api/v1/users", routes);
+app.use(passport.initialize())
 
+//Initializing the strategy
+require('./middlewares/passport')(passport);
 //app.use(cors);
+
+app.use("/api/v1/users", routes);
 
 const startApp = async () => {
     try {
