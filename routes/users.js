@@ -1,4 +1,5 @@
 const express = require('express');
+const validateUsers = require('../middlewares/validator');
 const router = express.Router();
 const { userRegister, userLogin, userAuth, serializeUser, checkRole } = require('../utils/Auth')
 
@@ -10,7 +11,7 @@ router.get('/test', userAuth, checkRole(['user']), async (req, res) => {
     return res.json(serializeUser(req.user))
 });
 
-router.post('/register-admin', async (req, res) => {
+router.post('/register-admin', validateUsers, async (req, res) => {
     await userRegister(req.body, 'admin', res)
 });
 

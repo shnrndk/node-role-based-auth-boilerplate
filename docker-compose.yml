@@ -10,7 +10,7 @@ services:
       - 27017:27017
     volumes:
       - ~/local/db:/data/db
-  nodeapp:
-    build: .
-    depends_on:
-      - mongo
+  # nodeapp:
+  #   build: .
+  #   depends_on:
+  #     - mongo
